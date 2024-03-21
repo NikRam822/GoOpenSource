@@ -3,15 +3,19 @@
 Project is a solution to find the right projects for your goals. You can find the right project for your business/research. The platform aggregates projects from multiple sources and allows you to quickly and accurately find the right basis for the realization of your ideas.
 ## Development
 
+Python 3.9
+
 ### Start server in production
-First you need to create an .env file in the root folder of the project and specify the parameter:
+First you need to create an **.env** file in the root folder of the project and specify the parameter:
 
 ```
 GITHUB_ACCESS_TOKEN=your_access_token
 ```
 In the root directory:
 ```bash
-pip install requirements.txt
+pip install -r requirements.txt
+```
+```
 python main.py
 ```
 
