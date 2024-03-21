@@ -4,6 +4,11 @@ Project is a solution to find the right projects for your goals. You can find th
 ## Development
 
 ### Start server in production
+First you need to create an .env file in the root folder of the project and specify the parameter:
+
+```
+GITHUB_ACCESS_TOKEN=your_access_token
+```
 In the root directory:
 ```bash
 pip install requirements.txt
