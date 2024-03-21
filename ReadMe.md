@@ -15,10 +15,15 @@ In the root directory:
 ```bash
 pip install -r requirements.txt
 ```
+
 ```
 python main.py
 ```
-
+#### Possible Problems:
+If you have problem with ERROR: Could not install packages due to an OSError - you can try use this:
+```
+pip install -r requirements.txt --user
+```
 ### Update pip packages
 To update pip packages after installing them to the local development environment, run the following commands in root of the project:
 ```bash
