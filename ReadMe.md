@@ -1,4 +1,5 @@
 # GoOpenSource
+![logo](docs/media/Logo.png)
 ## What is GoOpenSource?
 Project is a solution to find the right projects for your goals. You can find the right project for your business/research. The platform aggregates projects from multiple sources and allows you to quickly and accurately find the right basis for the realization of your ideas.
 ## Development
