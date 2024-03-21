@@ -11,7 +11,8 @@ First you need to create an **.env** file in the root folder of the project and 
 GITHUB_ACCESS_TOKEN=your_access_token
 ```
 
-**Without using a virtual environment:** In the root directory:
+#### Without using a virtual environment: 
+In the root directory:
 
 ```bash
 pip install -r requirements.txt
