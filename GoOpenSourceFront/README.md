@@ -12,6 +12,8 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
 
+First go to the directory ```./GoOpenSourceFront``` then:
+
 ```sh
 npm install
 ```
