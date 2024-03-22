@@ -13,9 +13,10 @@ class GitHubAPI(GitAPI):
         try:
             g = Github(os.getenv("GITHUB_ACCESS_TOKEN"))
             repositories = g.search_repositories(query=query_for_project)
-            repo_links = [repo.html_url for repo in repositories[:100]]
+            # sorted by popularity
+            repositories = sorted(repositories, key=lambda repo: repo.stargazers_count, reverse=True)
+            repo_links = [repo.html_url for repo in repositories[:5]]
             return repo_links
         except Exception as e:
             print(f"An error occurred: {e}")
             return []
-
