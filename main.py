@@ -24,7 +24,7 @@ async def say_hello(name: str):
 async def read_item(request: Request):
     data = await request.json()
     query = data.get('queryForProject')
-    # TODO: AI FOR BUILD QUERY FIR GITHUB
+    # TODO: AI FOR BUILD QUERY FOR GITHUB
     all_repos = []
     for name, api in apis.items():
         repos = api.get_repositories(query)
