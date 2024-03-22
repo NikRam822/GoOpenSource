@@ -10,7 +10,12 @@ class GitHubAPI(GitAPI):
     load_dotenv()
 
     def get_repositories(self, query_for_project):
-        g = Github(os.getenv("GITHUB_ACCESS_TOKEN"))
-        repositories = g.search_repositories(query=query_for_project)
-        repo_links = [repo.html_url for repo in repositories[:5]]
-        return repo_links
+        try:
+            g = Github(os.getenv("GITHUB_ACCESS_TOKEN"))
+            repositories = g.search_repositories(query=query_for_project)
+            repo_links = [repo.html_url for repo in repositories[:100]]
+            return repo_links
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return []
+
