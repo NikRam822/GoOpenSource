@@ -1,22 +1,22 @@
-const app = Vue.createApp({
-  data() {
-    return {
-      queryForProject: '',
-      repositories: []
-    };
-  },
-  methods: {
-    async getRepositories() {
-      try {
-        const response = await axios.post('http://127.0.0.1:8000/getRepositories', {
-          queryForProject: this.queryForProject
-        });
-        this.repositories = response.data.repositories;
-      } catch (error) {
-        console.error('Error fetching repositories:', error);
-      }
-    }
-  }
-})
+import { createApp } from 'vue'
 
-app.mount('#app')
+import App from './App.vue'
+import SearchRepos from './components/SearchRepos.vue'
+import ReposCards from './components/ReposCards.vue'
+
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
+
+const vuetify = createVuetify({
+    components,
+    directives,
+})
+const app = createApp(App)
+
+app.component('search-repos', SearchRepos)
+app.component('repos-cards', ReposCards)
+
+app.use(vuetify).mount('#app')
