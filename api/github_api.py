@@ -13,7 +13,7 @@ class GitHubAPI(GitAPI):
         try:
             g = Github(os.getenv("GITHUB_ACCESS_TOKEN"))
             repositories = g.search_repositories(query=query_for_project)
-            repo_links = [repo.html_url for repo in repositories[:100]]
+            repo_links = [repo.html_url for repo in repositories[:10]]
             return repo_links
         except Exception as e:
             print(f"An error occurred: {e}")
