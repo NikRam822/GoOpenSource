@@ -18,14 +18,14 @@ class GitHubAPI(GitAPI):
             repo_links = [
                 Model(
                     link=repo.html_url,
-                    clone_link="",
-                    name="",
+                    clone_link=repo.clone_url,
+                    name=repo.name,
                     readme="",
-                    description="",
-                    stars=0,
+                    description=repo.description,
+                    stars=repo.watchers_count,
                     contributors=[],
                     owner=Contributor(
-                        username=""
+                        username=repo.owner.login,
                     ),
                 ) for repo in repositories[:GitAPI.get_number_of_repos()]]
             return repo_links

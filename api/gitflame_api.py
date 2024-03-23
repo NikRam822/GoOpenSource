@@ -48,12 +48,8 @@ class GitFlameAPI(GitAPI):
 
     @staticmethod
     def readme_urls(owner: str, repo_name: str, ) -> typing.List[str]:
-        prefix = os.getenv("GITFLAME_API_URL") + f"/repos/{owner}/{repo_name}/raw//"
-        return [
-            prefix + "README.md",
-            prefix + "readme.md",
-            prefix + "ReadMe.md",
-        ]
+
+        return super().readme_files_names(prefix)
 
     def __get_readme(self, owner: str, repo_name: str, ) -> str:
         try:

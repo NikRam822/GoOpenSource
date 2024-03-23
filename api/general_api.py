@@ -12,3 +12,14 @@ class GitAPI(ABC):
     @staticmethod
     def get_number_of_repos() -> int:
         return 3
+
+    @staticmethod
+    def readme_files_names(prefix: str) -> typing.List[str]:
+        return [
+            prefix + "README.md",
+            prefix + "readme.md",
+            prefix + "ReadMe.md"
+        ]
+
+    @abstractmethod
+    def __get_readme(self, owner: str, repo_name: str, ) -> str:
