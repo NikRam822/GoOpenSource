@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import router from '@/router/router'
 
 import App from './App.vue'
 import SearchRepos from './components/SearchRepos.vue'
@@ -19,4 +20,4 @@ const app = createApp(App)
 app.component('search-repos', SearchRepos)
 app.component('repos-cards', ReposCards)
 
-app.use(vuetify).mount('#app')
+app.use(vuetify).use(router).mount('#app')
