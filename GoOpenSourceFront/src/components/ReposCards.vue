@@ -1,7 +1,7 @@
 <template>
     <div>
-        <v-container>
-            <v-card v-for="rep in repositories[0]" variant="tonal" class = "my-5" hover :href = 'rep'>
+        <v-container v-for = "repos in repositories" >
+            <v-card v-for="rep in repos" variant="tonal" class = "my-5" hover :href = 'rep'>
                 <v-card-item> {{ rep }}</v-card-item>
             </v-card>
         </v-container>
