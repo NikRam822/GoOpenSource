@@ -40,13 +40,16 @@ async def read_item(request: Request):
     query = data.get('queryForProject')
     # TODO: AI FOR BUILD QUERY FOR GITHUB
     all_repos = []
+    result = []
     for name, api in apis.items():
         repos = api.get_repositories(query)
         all_repos.append(repos)
         # middleware for AI solutions
         verification_repo(repos, query)
         # print(f"Repositories from {name}: {repos}")
-    return {"repositories": all_repos}
+        result.append(x.link for x in repos)
+
+    return {"repositories": result}
 
 
 if __name__ == '__main__':
