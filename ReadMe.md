@@ -13,6 +13,8 @@ GITHUB_ACCESS_TOKEN=your_access_token
 
 GITLAB_API_URL=https://gitlab.com
 GITLAB_ACCESS_TOKEN=your_access_token
+
+GITFLAME_API_URL=https://gitflame.ru/api/v1
 ```
 
 #### Without using a virtual environment: 

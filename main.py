@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+
+from api.gitflame_api import GitFlameAPI
 from api.github_api import GitHubAPI
 from ai.repo_verification import verification_repo
 from api.gitlab_api import GitLabAPI
@@ -17,7 +19,8 @@ app.add_middleware(
 
 apis = {
     "GitHubAPI": GitHubAPI(),
-    "GitLabAPI": GitLabAPI()
+    "GitLabAPI": GitLabAPI(),
+    "GitFlameAPI": GitFlameAPI(),
 }
 
 
