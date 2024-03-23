@@ -26,7 +26,7 @@ class GitFlameAPI(GitAPI):
                     link=repo["html_url"],
                     clone_link=repo["clone_url"],
                     name=repo["name"],
-                    readme=self.__get_readme(repo["owner"]["username"], repo["name"]),
+                    readme=self.get_readme(repo["owner"]["username"], repo["name"]),
                     description=repo["description"],
                     stars=repo["stars_count"],
                     contributors=[],
@@ -49,13 +49,17 @@ class GitFlameAPI(GitAPI):
     @staticmethod
     def readme_urls(owner: str, repo_name: str, ) -> typing.List[str]:
         prefix = os.getenv("GITFLAME_API_URL") + f"/repos/{owner}/{repo_name}/raw//"
+        return GitFlameAPI.readme_files_names(prefix)
+
+    @staticmethod
+    def readme_files_names(prefix: str) -> typing.List[str]:
         return [
             prefix + "README.md",
             prefix + "readme.md",
-            prefix + "ReadMe.md",
+            prefix + "ReadMe.md"
         ]
 
-    def __get_readme(self, owner: str, repo_name: str, ) -> str:
+    def get_readme(self, owner: str, repo_name: str, ) -> str:
         try:
             for link in self.readme_urls(owner, repo_name):
                 readme = requests.get(

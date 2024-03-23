@@ -1,5 +1,6 @@
 import typing
 
+import requests
 from gitlab import Gitlab
 from dotenv import load_dotenv
 import os
@@ -18,17 +19,31 @@ class GitLabAPI(GitAPI):
             repo_links = [
                 Model(
                     link=project.web_url,
-                    clone_link="",
-                    name="",
-                    readme="",
-                    description="",
-                    stars=0,
+                    clone_link=project.http_url_to_repo,
+                    name=project.name,
+                    readme=self.get_readme(project.readme_url, project.namespace['path'], project.path),
+                    description=project.description,
+                    stars=project.star_count,
                     contributors=[],
                     owner=Contributor(
-                        username=""
+                        username=project.namespace['name']
                     ),
                 ) for project in projects]
             return repo_links
         except Exception as e:
             print(f"An error occurred: {e}")
             return []
+
+    @staticmethod
+    def get_readme(readme_link: str, owner: str, repo_name: str, ) -> str:
+        if readme_link is None:
+            return ""
+        readme_name = readme_link.split("/")[-2:]
+        link = f'https://gitlab.com/{owner}/{repo_name}/-/raw/{"/".join(readme_name)}'
+
+        try:
+            response = requests.get(link)
+            return response.content.decode()
+        except Exception as e:
+            print(f"An error occurred during getting gitlab readme: {e}")
+            return ""

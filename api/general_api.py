@@ -12,3 +12,4 @@ class GitAPI(ABC):
     @staticmethod
     def get_number_of_repos() -> int:
         return 3
+
