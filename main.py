@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from api.github_api import GitHubAPI
 from ai.repo_verification import verification_repo
+from api.gitlab_api import GitLabAPI
 
 app = FastAPI()
 
@@ -15,7 +16,8 @@ app.add_middleware(
 )
 
 apis = {
-    "GitHubAPI": GitHubAPI()
+    "GitHubAPI": GitHubAPI(),
+    "GitLabAPI": GitLabAPI()
 }
 
 
@@ -40,10 +42,10 @@ async def read_item(request: Request):
         all_repos.append(repos)
         # middleware for AI solutions
         verification_repo(repos, query)
-        print(f"Repositories from {name}: {repos}")
+        # print(f"Repositories from {name}: {repos}")
     return {"repositories": all_repos}
 
 
 if __name__ == '__main__':
     # python main.py - for start server in prod
-    uvicorn.run(app, host='127.0.0.1', port=8000)
+    uvicorn.run(app)

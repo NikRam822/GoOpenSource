@@ -10,6 +10,9 @@ First you need to create an **.env** file in the root folder of the project and 
 
 ```
 GITHUB_ACCESS_TOKEN=your_access_token
+
+GITLAB_API_URL=https://gitlab.com
+GITLAB_ACCESS_TOKEN=your_access_token
 ```
 
 #### Without using a virtual environment: 
