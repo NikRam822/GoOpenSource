@@ -16,7 +16,8 @@ class MosHub(GitAPI):
             url = "https://hub.mos.ru/explore/projects" + "?name=" + query_for_project + "&sort=latest_activity_desc"
             response = requests.get(url)
             soup = BeautifulSoup(response.content, 'html.parser')
-
+            for link in soup.find_all('li', class_='project-row'):
+                print(link)
             repo_links = [Model(
                 link="https://hub.mos.ru" + link['href'],
                 clone_link="",
@@ -29,7 +30,7 @@ class MosHub(GitAPI):
                     username=""
                 ),
             )
-                for link in soup.find_all('a', class_='project')[:GitAPI.get_number_of_repos()]]
+                for link in soup.find_all('li', class_='project-row')[:GitAPI.get_number_of_repos()]]
             return repo_links
         except Exception as e:
             print(f"An error occurred: {e}")
