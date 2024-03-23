@@ -1,10 +1,10 @@
 <template>
-    <div>
-        <v-form @submit.prevent="sendQuerry">
+    <v-toolbar app>
+        <v-form ref="form">
             <v-text-field v-model="queryForProject" :rules="rules" label="Enter your querry"></v-text-field>
-            <v-btn type="submit" block>Search</v-btn>
+            <v-btn @click="sendQuerry">Search</v-btn>
         </v-form>
-    </div>
+    </v-toolbar>
 </template>
 <script>
 export default {
@@ -20,8 +20,11 @@ export default {
         };
     },
     methods: {
-        sendQuerry() {
-            this.$emit('getRepositories', this.queryForProject);
+        async sendQuerry() {
+            const { valid } = await this.$refs.form.validate()
+            if (valid) {
+                this.$emit('getRepositories', this.queryForProject);
+            }
         }
     }
 }
