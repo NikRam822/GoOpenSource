@@ -50,8 +50,8 @@ class GitFlameAPI(GitAPI):
     def readme_urls(owner: str, repo_name: str, ) -> typing.List[str]:
         prefix = os.getenv("GITFLAME_API_URL") + f"/repos/{owner}/{repo_name}/raw//"
         return [
-            prefix + "readme.md",
             prefix + "README.md",
+            prefix + "readme.md",
             prefix + "ReadMe.md",
         ]
 
