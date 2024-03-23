@@ -1,7 +1,7 @@
-import requests
-from github import Github
-from dotenv import load_dotenv
 import os
+
+import requests
+from dotenv import load_dotenv
 
 from api.general_api import GitAPI
 
@@ -11,9 +11,8 @@ class GitFlameAPI(GitAPI):
 
     def get_repositories(self, query_for_project):
         try:
-            print(self.__url())
             repositories = requests.get(
-                url=self.__url(),
+                url=self.search_url(),
                 params={
                     "page": 1,
                     "limit": GitAPI.get_number_of_repos(),
@@ -27,5 +26,5 @@ class GitFlameAPI(GitAPI):
             return []
 
     @staticmethod
-    def __url() -> str:
+    def search_url() -> str:
         return os.getenv("GITFLAME_API_URL") + "/search"
