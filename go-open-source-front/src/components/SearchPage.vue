@@ -1,16 +1,21 @@
 <template>
-  <SearchRepos @getRepositories="getRepositories"></SearchRepos>
-  <ReposCards :repositories="repositories"></ReposCards>
+  <v-container>
+    <v-row>
+      <v-col>
+        <v-container>
+          <SearchRepos @getRepositories="getRepositories"></SearchRepos>
+          <ReposCards :repositories="repositories"></ReposCards>
+        </v-container>
+      </v-col>
+      <v-col cols='3'>
+        <Filter></Filter>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
-import SearchRepos from '@/components/SearchRepos.vue';
-import ReposCards from '@/components/ReposCards.vue';
-
+import axios from 'axios'
 export default {
-  components: {
-    SearchRepos,
-    ReposCards
-  },
   data() {
     return {
       repositories: [],
