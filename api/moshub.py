@@ -13,7 +13,7 @@ class MosHub(GitAPI):
             response = requests.get(url)
             soup = BeautifulSoup(response.content, 'html.parser')
 
-            repo_links = [link['href'] for link in soup.select('#content-body div[5] ul li div[1] a')]
+            repo_links = ["https://hub.mos.ru"+link['href'] for link in soup.find_all('a', class_='project')]
 
             return repo_links
         except Exception as e:
