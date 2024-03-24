@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
+from ai.repo_keywords import extract_keywords
 from api.gitflame_api import GitFlameAPI
 from api.github_api import GitHubAPI
 from ai.repo_verification import verification_repo
@@ -43,17 +44,29 @@ async def read_item(request: Request):
     data = await request.json()
     query = data.get('queryForProject')
     # TODO: AI FOR BUILD QUERY FOR GITHUB
-    all_repos = []
-    result = []
-    for name, api in apis.items():
-        repos = api.get_repositories(query)
-        all_repos.append(repos)
-        # middleware for AI solutions
-        verification_repo(repos, query)
-        # print(f"Repositories from {name}: {repos}")
-        result.append(x.link for x in repos)
 
-    return {"repositories": result}
+    keywords = extract_keywords(query)
+
+    all_repos = []
+    for keyword in keywords:
+        print(keyword, end=' ')
+        for name, api in apis.items():
+            print(name, end=' ')
+            repos = api.get_repositories(keyword)
+            all_repos.extend(repos)
+        print(len(all_repos))
+        # middleware for AI solutions
+
+    seen = set()
+    verification_repo([repo for repo in all_repos if repo.link not in seen and not seen.add(repo.link)],
+                      query)
+    # print(f"Repositories from {name}: {repos}")
+
+    all_repos.sort(key=lambda repo: repo.stars, reverse=True)
+
+    result = [x.link for x in all_repos]
+
+    return {"repositories": [result]}
 
 
 if __name__ == '__main__':
