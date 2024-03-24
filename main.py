@@ -2,7 +2,8 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-from ai.repo_keywords import extract_keywords
+from ai.readme_analyze import ReadMeAnalyzer
+from ai.repo_keywords import Query
 from api.gitflame_api import GitFlameAPI
 from api.github_api import GitHubAPI
 from ai.repo_verification import verification_repo
@@ -71,7 +72,11 @@ async def read_item(request: Request):
     query = data.get('queryForProject')
     # TODO: AI FOR BUILD QUERY FOR GITHUB
 
-    keywords = extract_keywords(query)
+    query = Query(user_query=query)
+    keywords = query.get_key_queries_from_correct_query().split(',')
+    print(keywords)
+
+    readme_analyzer = ReadMeAnalyzer(query)
 
     all_repos = []
     for keyword in keywords:
@@ -87,11 +92,22 @@ async def read_item(request: Request):
     unique_repos = [repo for repo in all_repos if repo.link not in seen and not seen.add(repo.link)]
     # print(f"Repositories from {name}: {repos}")
 
-    unique_repos.sort(key=lambda repo: repo.stars, reverse=True)
+    if len(unique_repos) == 0:
+        return {"repositories": []}
+
+    out_meta, out_description, out_rating = readme_analyzer.analyze_readme(unique_repos)
+
+    # print(f"Repositories from {name}: {repos}")
+
+    for i in range(len(out_meta)):
+        unique_repos[i].out_rating = (1 - out_rating[i]) * 100
+        unique_repos[i].out_description = out_description[i]
+
+    unique_repos.sort(key=lambda repo: (repo.out_rating, repo.stars), reverse=True)
 
     result = [x.link for x in unique_repos]
 
-    return {"repositories": [result]}
+    return {"repositories": [unique_repos]}
 
 
 if __name__ == '__main__':

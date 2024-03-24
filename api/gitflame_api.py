@@ -25,7 +25,7 @@ class GitFlameAPI(GitAPI):
             for repo in repositories.json()["repositories"][:GitAPI.get_number_of_repos()]:
                 readme, first_time_seen = self.find_or_insert_readme(
                     self.url_owner_repo_name(repo["owner"]["username"], repo["name"]),
-                    self.get_readme, [repo["owner"]["username"], repo["name"]],
+                    self.get_readme, [repo["owner"]["username"], repo["name"], repo["description"]],
                 )
 
                 models.append(
@@ -69,14 +69,14 @@ class GitFlameAPI(GitAPI):
             prefix + "ReadMe.md"
         ]
 
-    def get_readme(self, owner: str, repo_name: str, ) -> str:
+    def get_readme(self, owner: str, repo_name: str, description: str) -> str:
         try:
             for link in self.readme_urls(owner, repo_name):
                 readme = requests.get(
                     url=link)
 
                 if readme.status_code == 200:
-                    return readme.content.decode()
+                    return description + "\n" + readme.content.decode()
 
             print(f"Can not find readme.md for gitflame {owner}/{repo_name}")
             return ""
