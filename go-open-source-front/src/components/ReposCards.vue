@@ -24,18 +24,16 @@
       <v-row>
         <v-col v-for="(item, i) in items" :key="i" cols="12" sm="6" xl="3">
           <v-card border>
-            <v-list-item :title="item" density="comfortable" lines="two" subtitle="Name">
-              <template v-slot:title>
-                <strong class="text-h6"> {{ item.raw.name }} </strong>
-              </template>
-            </v-list-item>
-            <v-list-item :title="item" density="comfortable" lines="two" subtitle="Repository URL">
-              <template v-slot:title>
-                <strong class="text-subtitle-1"> {{ item.raw.link }} </strong>
-              </template>
-            </v-list-item>
+            <v-card-text :title="item" density="comfortable" lines="two" subtitle="Name">
+              <p>Name:</p>
+              <strong class="text-h6"> {{ item.raw.name }} </strong>
+            </v-card-text>
+            <v-card-title :title="item" density="comfortable" lines="two" subtitle="Repository URL">
+              <p class="text-subtitle-1">repoURL:</p>
+              <v-btn flat class="text-subtitle-1" :href="item.raw.link" target="_blank"> {{ item.raw.link }} </v-btn>
+            </v-card-title>
           </v-card>
-        </v-col>
+        </v-col>ч
       </v-row>
     </template>
 
