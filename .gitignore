@@ -3,7 +3,8 @@ venv
 test_main.http
 .idea
 files/*
-
+./node_modules/*
+./go-open-source-front/node_modules/*
 ### Vue
 */node_modules
 */components.d.ts
