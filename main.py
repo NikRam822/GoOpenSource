@@ -27,11 +27,15 @@ origins = [
     "http://158.160.19.38:8000",
     "http://158.160.19.38"
 ]
+
+origins2= [
+    "http://158.160.19.38"
+]
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=origins2,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Accept",
