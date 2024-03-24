@@ -21,25 +21,27 @@ class GitFlameAPI(GitAPI):
                     "q": query_for_project,
                     "is_private": False,
                 })
-
-            models = [
-                Model(
-                    link=repo["html_url"],
-                    clone_link=repo["clone_url"],
-                    name=repo["name"],
-                    readme=self.find_or_insert_readme(
-                        self.url_owner_repo_name(repo["owner"]["username"], repo["name"]),
-                        self.get_readme, [repo["owner"]["username"], repo["name"]],
-                    ),
-                    description=repo["description"],
-                    stars=repo["stars_count"],
-                    contributors=[],
-                    owner=Contributor(
-                        username=repo["owner"]["username"],
-                    ),
+            models = []
+            for repo in repositories.json()["repositories"][:GitAPI.get_number_of_repos()]:
+                readme, first_time_seen = self.find_or_insert_readme(
+                    self.url_owner_repo_name(repo["owner"]["username"], repo["name"]),
+                    self.get_readme, [repo["owner"]["username"], repo["name"]],
                 )
-                for repo in
-                repositories.json()["repositories"][:GitAPI.get_number_of_repos()]]
+
+                models.append(
+                    Model(
+                        link=repo["html_url"],
+                        clone_link=repo["clone_url"],
+                        name=repo["name"],
+                        readme=readme,
+                        first_time_seen=first_time_seen,
+                        description=repo["description"],
+                        stars=repo["stars_count"],
+                        contributors=[],
+                        owner=Contributor(
+                            username=repo["owner"]["username"],
+                        ),
+                    ))
             return models
 
         except Exception as e:
