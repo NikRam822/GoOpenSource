@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-from ai.repo_keywords import extract_keywords
+from ai.repo_keywords import Query
 from api.gitflame_api import GitFlameAPI
 from api.github_api import GitHubAPI
 from ai.repo_verification import verification_repo
@@ -69,9 +69,9 @@ async def say_hello(name: str):
 async def read_item(request: Request):
     data = await request.json()
     query = data.get('queryForProject')
-    # TODO: AI FOR BUILD QUERY FOR GITHUB
 
-    keywords = extract_keywords(query)
+    keywords = Query(user_query=query).get_key_queries_from_correct_query().split(',')
+    print(keywords)
 
     all_repos = []
     for keyword in keywords:
