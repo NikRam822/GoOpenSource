@@ -6,7 +6,7 @@ from api.gitflame_api import GitFlameAPI
 from api.github_api import GitHubAPI
 from ai.repo_verification import verification_repo
 from api.gitlab_api import GitLabAPI
-from api.gitverse_api import GetVerseAPI
+from api.gitverse_api import GitVerseAPI
 from api.moshub import MosHub
 
 app = FastAPI()
@@ -24,7 +24,7 @@ apis = {
     "GitLabAPI": GitLabAPI(),
     "GitFlameAPI": GitFlameAPI(),
     "MosHub": MosHub(),
-    "GetVerseAPI": GetVerseAPI(),
+    "GitVerseAPI": GitVerseAPI(),
 }
 
 
