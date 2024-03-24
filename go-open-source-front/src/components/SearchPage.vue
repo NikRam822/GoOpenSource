@@ -7,9 +7,9 @@
           <ReposCards :repositories="repositories"></ReposCards>
         </v-container>
       </v-col>
-      <v-col cols='3'>
+      <!-- <v-col cols='3'>
         <Filter></Filter>
-      </v-col>
+      </v-col> -->
     </v-row>
   </v-container>
 </template>
