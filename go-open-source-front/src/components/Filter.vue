@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card>
-      <p>бля</p>
+      <p>tok</p>
       <v-combobox>
         label="language"
         :items="['English', 'Russuan']"
