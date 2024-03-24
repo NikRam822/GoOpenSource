@@ -33,7 +33,7 @@
               <v-btn flat class="text-subtitle-1" :href="item.raw.link" target="_blank"> {{ item.raw.link }} </v-btn>
             </v-card-title>
           </v-card>
-        </v-col>ч
+        </v-col>
       </v-row>
     </template>
 
