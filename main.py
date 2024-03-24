@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request
-from starlette.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from ai.repo_keywords import extract_keywords
@@ -10,30 +10,27 @@ from api.gitlab_api import GitLabAPI
 from api.gitverse_api import GitVerseAPI
 from api.moshub import MosHub
 
-app = FastAPI()
-
-origins = [
-    "*",
-    "http://localhost",
-    "http://localhost:8080",
-    "http://localhost:8000",
+origins=[
     "http://localhost:5173",
-    "http://158.160.19.38",
-    "http://127.0.0.1:8080",
-    "http://127.0.0.1:8000",
-    "http://127.0.0.1:5173",
-    "http://10.129.0.29:5173",
-    "http://10.129.0.29:8000",
-    "http://10.129.0.29:5080",
-    "http://10.129.0.29",
+
 ]
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*", origins],
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Accept",
+                   "Access-Control-Allow-Origin",
+                   "Content-Length",
+                   "Accept-Encoding",
+                   "X-CSRF-Token",
+                   "Authorization",
+                   "Content-Type",
+                   "Access-Control-Expose-Headers",
+                   "Access-Control-Allow-Headers",
+                   "Set-Cookie"]
 )
 
 apis = {
@@ -87,4 +84,4 @@ async def read_item(request: Request):
 
 if __name__ == '__main__':
     # python main.py - for start server in prod
-    uvicorn.run(app)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
