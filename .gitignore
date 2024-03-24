@@ -4,6 +4,10 @@ test_main.http
 .idea
 files/*
 
+### Vue
+*/node_modules
+
+
 ### VisualStudioCode ###
 .vscode/*
 */.vscode
