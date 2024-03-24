@@ -97,7 +97,6 @@ async def read_item(request: Request):
 
     out_meta, out_description, out_rating = readme_analyzer.analyze_readme(unique_repos)
 
-<<<<<<< HEAD
     # print(f"Repositories from {name}: {repos}")
 
     for i in range(len(out_meta)):
@@ -109,9 +108,6 @@ async def read_item(request: Request):
     result = [x.link for x in unique_repos]
 
     return {"repositories": [unique_repos]}
-=======
-    return {"repositories": [all_repos]}
->>>>>>> 0b0aa94 (Updated cards to show repos)
 
 
 if __name__ == '__main__':
