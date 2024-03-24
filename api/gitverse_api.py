@@ -37,7 +37,7 @@ class GitVerseAPI(GitAPI):
                     ),
                 )
                 for repo in
-                repositories.json()["data"][:GitAPI.get_number_of_repos()]]
+                repositories.json()["data"][:min(GitAPI.get_number_of_repos(), len(repositories.json()["data"]))]]
             return models
 
         except Exception as e:

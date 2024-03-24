@@ -32,7 +32,7 @@ class GitHubAPI(GitAPI):
                     owner=Contributor(
                         username=repo.owner.login,
                     ),
-                ) for repo in repositories[:GitAPI.get_number_of_repos()]]
+                ) for repo in repositories[:min(GitAPI.get_number_of_repos(), repositories.totalCount)]]
             return repo_links
         except Exception as e:
             print(f"An error occurred: {e}")
