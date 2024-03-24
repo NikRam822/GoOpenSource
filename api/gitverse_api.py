@@ -8,7 +8,7 @@ from api.general_api import GitAPI
 from models.repository import Model, Contributor
 
 
-class GetVerseAPI(GitAPI):
+class GitVerseAPI(GitAPI):
     load_dotenv()
 
     def get_repositories(self, query_for_project) -> typing.List[Model]:
@@ -25,7 +25,10 @@ class GetVerseAPI(GitAPI):
                     link="https://gitverse.ru/" + repo["full_name"],
                     clone_link=repo["clone_url"],
                     name=repo["name"],
-                    readme=self.get_readme(repo["owner"]["username"], repo["name"]),
+                    readme=self.find_or_insert_readme(
+                        self.url_owner_repo_name(repo["owner"]["username"], repo["name"]),
+                        self.get_readme, [repo["owner"]["username"], repo["name"]],
+                    ),
                     description=repo["description"],
                     stars=repo["stars_count"],
                     contributors=[],
@@ -40,6 +43,11 @@ class GetVerseAPI(GitAPI):
         except Exception as e:
             print(f"An error occurred: {e}")
             return []
+
+
+    @staticmethod
+    def url_owner_repo_name(owner: str, repo_name: str, ) -> str:
+        return f'https://gitverse.ru/{owner}/{repo_name}'
 
     @staticmethod
     def search_url() -> str:

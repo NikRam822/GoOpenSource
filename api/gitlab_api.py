@@ -21,7 +21,10 @@ class GitLabAPI(GitAPI):
                     link=project.web_url,
                     clone_link=project.http_url_to_repo,
                     name=project.name,
-                    readme=self.get_readme(project.readme_url, project.namespace['path'], project.path),
+                    readme=self.find_or_insert_readme(
+                        self.url_owner_repo_name(project.namespace['path'], project.path),
+                        self.get_readme, [project.readme_url, project.namespace['path'], project.path],
+                    ),
                     description=project.description,
                     stars=project.star_count,
                     contributors=[],
@@ -33,6 +36,11 @@ class GitLabAPI(GitAPI):
         except Exception as e:
             print(f"An error occurred: {e}")
             return []
+
+
+    @staticmethod
+    def url_owner_repo_name(owner: str, repo_name: str, ) -> str:
+        return f'https://gitlab.com/{owner}/{repo_name}'
 
     @staticmethod
     def get_readme(readme_link: str, owner: str, repo_name: str, ) -> str:

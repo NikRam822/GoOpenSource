@@ -22,7 +22,10 @@ class GitHubAPI(GitAPI):
                     link=repo.html_url,
                     clone_link=repo.clone_url,
                     name=repo.name,
-                    readme=self.get_readme(repo.owner.login, repo.name),
+                    readme=self.find_or_insert_readme(
+                        self.url_owner_repo_name(repo.owner.login, repo.name),
+                        self.get_readme, [repo.owner.login, repo.name],
+                    ),
                     description=repo.description,
                     stars=repo.watchers_count,
                     contributors=[],
@@ -34,6 +37,10 @@ class GitHubAPI(GitAPI):
         except Exception as e:
             print(f"An error occurred: {e}")
             return []
+
+    @staticmethod
+    def url_owner_repo_name(owner: str, repo_name: str, ) -> str:
+        return f'https://github.com/{owner}/{repo_name}'
 
     def get_readme(self, owner: str, repo_name: str, ) -> str:
         return self.g.get_repo(full_name_or_id=f"{owner}/{repo_name}",lazy=True).get_readme().decoded_content.decode()

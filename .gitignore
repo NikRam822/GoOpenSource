@@ -2,6 +2,7 @@
 venv
 test_main.http
 .idea
+files/*
 
 ### VisualStudioCode ###
 .vscode/*
