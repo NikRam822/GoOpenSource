@@ -21,12 +21,16 @@ class GitFlameAPI(GitAPI):
                     "q": query_for_project,
                     "is_private": False,
                 })
+
             models = [
                 Model(
                     link=repo["html_url"],
                     clone_link=repo["clone_url"],
                     name=repo["name"],
-                    readme=self.get_readme(repo["owner"]["username"], repo["name"]),
+                    readme=self.find_or_insert_readme(
+                        self.url_owner_repo_name(repo["owner"]["username"], repo["name"]),
+                        self.get_readme, [repo["owner"]["username"], repo["name"]],
+                    ),
                     description=repo["description"],
                     stars=repo["stars_count"],
                     contributors=[],
@@ -45,6 +49,10 @@ class GitFlameAPI(GitAPI):
     @staticmethod
     def search_url() -> str:
         return os.getenv("GITFLAME_API_URL") + "/search"
+
+    @staticmethod
+    def url_owner_repo_name(owner: str, repo_name: str, ) -> str:
+        return f'https://gitflame.ru/{owner}/{repo_name}'
 
     @staticmethod
     def readme_urls(owner: str, repo_name: str, ) -> typing.List[str]:
