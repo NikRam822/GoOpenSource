@@ -49,10 +49,10 @@ app.add_middleware(
 
 apis = {
     "GitHubAPI": GitHubAPI(),
-    # "GitLabAPI": GitLabAPI(),
-    # "GitFlameAPI": GitFlameAPI(),
-    # "MosHub": MosHub(),
-    # "GitVerseAPI": GitVerseAPI(),
+    "GitLabAPI": GitLabAPI(),
+    "GitFlameAPI": GitFlameAPI(),
+    "MosHub": MosHub(),
+    "GitVerseAPI": GitVerseAPI(),
 }
 
 
@@ -70,6 +70,7 @@ async def say_hello(name: str):
 async def read_item(request: Request):
     data = await request.json()
     query = data.get('queryForProject')
+    # TODO: AI FOR BUILD QUERY FOR GITHUB
 
     query = Query(user_query=query)
     keywords = query.get_key_queries_from_correct_query().split(',')
