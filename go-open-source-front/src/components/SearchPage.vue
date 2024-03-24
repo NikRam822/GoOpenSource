@@ -24,7 +24,7 @@ export default {
   methods: {
     async getRepositories(queryForProject) {
       try {
-        const response = await axios.post('http://127.0.0.1:8000/getRepositories', {
+        const response = await axios.post('http://127.0.0.1:8000/getRepositories', { withCredentials: true }, {
           queryForProject: queryForProject
         });
         this.repositories = response.data.repositories;
