@@ -1,0 +1,25 @@
+<template>
+  <v-container>
+    <v-card>
+      <p>бля</p>
+      <v-combobox>
+        label="language"
+        :items="['English', 'Russuan']"
+      </v-combobox>
+    </v-card>
+    <v-card>
+      <p>stars</p>
+      <v-row>
+        <v-text-field></v-text-field>
+        <v-text-field></v-text-field>
+      </v-row>
+    </v-card>
+    <v-card>
+      <p>size</p>
+      <v-row>
+        <v-text-field></v-text-field>
+        <v-text-field></v-text-field>
+      </v-row>
+    </v-card>
+  </v-container>
+</template>

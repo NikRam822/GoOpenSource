@@ -8,7 +8,7 @@ from api.general_api import GitAPI
 from models.repository import Model, Contributor
 
 
-class GitFlameAPI(GitAPI):
+class GitVerseAPI(GitAPI):
     load_dotenv()
 
     def get_repositories(self, query_for_project) -> typing.List[Model]:
@@ -19,12 +19,10 @@ class GitFlameAPI(GitAPI):
                     "page": 1,
                     "limit": GitAPI.get_number_of_repos(),
                     "q": query_for_project,
-                    "is_private": False,
                 })
-
             models = [
                 Model(
-                    link=repo["html_url"],
+                    link="https://gitverse.ru/" + repo["full_name"],
                     clone_link=repo["clone_url"],
                     name=repo["name"],
                     readme=self.find_or_insert_readme(
@@ -39,32 +37,29 @@ class GitFlameAPI(GitAPI):
                     ),
                 )
                 for repo in
-                repositories.json()["repositories"][:GitAPI.get_number_of_repos()]]
+                repositories.json()["data"][:GitAPI.get_number_of_repos()]]
             return models
 
         except Exception as e:
             print(f"An error occurred: {e}")
             return []
 
-    @staticmethod
-    def search_url() -> str:
-        return os.getenv("GITFLAME_API_URL") + "/search"
 
     @staticmethod
     def url_owner_repo_name(owner: str, repo_name: str, ) -> str:
-        return f'https://gitflame.ru/{owner}/{repo_name}'
+        return f'https://gitverse.ru/{owner}/{repo_name}'
+
+    @staticmethod
+    def search_url() -> str:
+        return "https://gitverse.ru/sc/sbt/api/v1/repos/search"
 
     @staticmethod
     def readme_urls(owner: str, repo_name: str, ) -> typing.List[str]:
-        prefix = os.getenv("GITFLAME_API_URL") + f"/repos/{owner}/{repo_name}/raw//"
-        return GitFlameAPI.readme_files_names(prefix)
-
-    @staticmethod
-    def readme_files_names(prefix: str) -> typing.List[str]:
+        prefix = f"https://gitverse.ru/api/repos/{owner}/{repo_name}/raw/branch/master/"
         return [
             prefix + "README.md",
             prefix + "readme.md",
-            prefix + "ReadMe.md"
+            prefix + "ReadMe.md",
         ]
 
     def get_readme(self, owner: str, repo_name: str, ) -> str:
@@ -76,7 +71,7 @@ class GitFlameAPI(GitAPI):
                 if readme.status_code == 200:
                     return readme.content.decode()
 
-            print(f"Can not find readme.md for gitflame {owner}/{repo_name}")
+            print(f"Can not find readme.md for gitverse {owner}/{repo_name}")
             return ""
         except Exception as e:
             print(f"An error occurred during getting readme: {e}")
