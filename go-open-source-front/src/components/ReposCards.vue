@@ -23,7 +23,7 @@
     <template v-slot:default="{ items }">
       <v-row>
         <v-col v-for="(item, i) in items" :key="i" cols="12" sm="6" xl="3">
-          <v-card url=item.raw.link border>
+          <v-card border>
             <v-list-item :title="item" density="comfortable" lines="two" subtitle="Name">
               <template v-slot:title>
                 <strong class="text-h6"> {{ item.raw.name }} </strong>
@@ -59,18 +59,12 @@ export default {
   },
   data() {
     return {
-      itemsPerPage: 10,
+      itemsPerPage: 6,
     };
   },
   methods: {
     onClickSeeAll() {
-      // Здесь ваш код для обработки события "See all"
-    },
-    prevPage() {
-      // Здесь ваш код для обработки события "Previous page"
-    },
-    nextPage() {
-      // Здесь ваш код для обработки события "Next page"
+      this.itemsPerPage = 1000
     }
   }
 }
