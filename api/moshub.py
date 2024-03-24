@@ -34,7 +34,8 @@ class MosHub(GitAPI):
                         1]
                 ),
             )
-                for link in soup.find_all('li', class_='project-row')[:GitAPI.get_number_of_repos()]]
+                for link in soup.find_all('li', class_='project-row')[
+                            :min(GitAPI.get_number_of_repos(), len(soup.find_all('li', class_='project-row')))]]
             return repo_links
         except Exception as e:
             print(f"An error occurred: {e}")
