@@ -92,7 +92,7 @@ async def read_item(request: Request):
 
     result = [x.link for x in all_repos]
 
-    return {"repositories": [result]}
+    return {"repositories": [all_repos]}
 
 
 if __name__ == '__main__':

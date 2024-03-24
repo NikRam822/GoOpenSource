@@ -5,14 +5,12 @@
         <v-container>
           <SearchRepos @getRepositories="getRepositories"></SearchRepos>
           <v-col align="center">
-            <v-progress-circular v-if="switch" indeterminate size="50" width="10" color="grey-darken-3"></v-progress-circular>
+            <v-progress-circular v-if="switch" indeterminate size="50" width="10"
+              color="grey-darken-3"></v-progress-circular>
           </v-col>
-          <ReposCards :repositories="repositories"></ReposCards>
         </v-container>
+        <ReposCards :repositories=" repositories "></ReposCards>
       </v-col>
-      <!-- <v-col cols='3'>
-        <Filter></Filter>
-      </v-col> -->
     </v-row>
   </v-container>
 </template>
@@ -32,8 +30,8 @@ export default {
         const response = await axios.post('http://127.0.0.1:8000/getRepositories', {
           queryForProject: queryForProject
         }, {
-        withCredentials: true,
-      })
+          withCredentials: true,
+        })
         this.switch = false
         this.repositories = response.data.repositories;
       } catch (error) {
