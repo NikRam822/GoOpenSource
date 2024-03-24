@@ -28,7 +28,7 @@ export default {
     async getRepositories(queryForProject) {
       this.switch = true
       try {
-        const response = await axios.post('http://127.0.0.1:8000/getRepositories', {
+        const response = await axios.post('http://158.160.19.38/api/getRepositories', {
           queryForProject: queryForProject
         }, {
           withCredentials: true,
