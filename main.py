@@ -10,9 +10,22 @@ from api.gitlab_api import GitLabAPI
 from api.gitverse_api import GitVerseAPI
 from api.moshub import MosHub
 
-origins=[
+origins = [
     "http://localhost:5173",
-
+    "http://localhost:8000",
+    "http://localhost",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1",
+    "http://0.0.0.0:5173",
+    "http://0.0.0.0:8000",
+    "http://0.0.0.0",
+    "http://10.129.0.29:8000",
+    "http://10.129.0.29:5173",
+    "http://10.129.0.29",
+    "http://158.160.19.38:5173",
+    "http://158.160.19.38:8000",
+    "http://158.160.19.38"
 ]
 app = FastAPI()
 
