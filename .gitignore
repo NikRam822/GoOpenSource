@@ -6,7 +6,8 @@ files/*
 
 ### Vue
 */node_modules
-
+*/components.d.ts
+*/typed-router.d.ts
 
 ### VisualStudioCode ###
 .vscode/*
