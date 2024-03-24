@@ -25,7 +25,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Replace "*" with your allowed origins if needed
+    allow_origins=["*", "http://localhost:8000","http://127.0.0.1:8000",  "http://127.0.0.1:5173", "http://localhost:5173"],  # Replace "*" with your allowed origins if needed
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],  # Adjust allowed methods as needed
     allow_headers=["*"],  # Replace "*" with your allowed headers if needed
