@@ -21,7 +21,7 @@ class GitHubAPI(GitAPI):
             for repo in repositories[:min(GitAPI.get_number_of_repos(), repositories.totalCount)]:
                 readme, first_time_seen = self.find_or_insert_readme(
                     self.url_owner_repo_name(repo.owner.login, repo.name),
-                    self.get_readme, [repo.owner.login, repo.name],
+                    self.get_readme, [repo.owner.login, repo.name, repo.description],
                 )
 
                 repo_links.append(
@@ -48,5 +48,5 @@ class GitHubAPI(GitAPI):
     def url_owner_repo_name(owner: str, repo_name: str, ) -> str:
         return f'https://github.com/{owner}/{repo_name}'
 
-    def get_readme(self, owner: str, repo_name: str, ) -> str:
-        return self.g.get_repo(full_name_or_id=f"{owner}/{repo_name}", lazy=True).get_readme().decoded_content.decode()
+    def get_readme(self, owner: str, repo_name: str, descr: str ) -> str:
+        return descr + "\n" + self.g.get_repo(full_name_or_id=f"{owner}/{repo_name}", lazy=True).get_readme().decoded_content.decode()

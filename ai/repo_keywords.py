@@ -47,7 +47,10 @@ class Query:
     def get_key_queries_from_correct_query(self):
         prompt = ChatPromptTemplate.from_messages([
             ("system",
-             """You are an expert at finding repositories on GitHub. You have been contacted by the person who made up the query, and your task is to use keywords from the user's query to write 5 short queries that the user can best search for. Use no more than 3 words in one search query. Be brief. Write requests separated by commas. Answer only english language"""),
+             """You are an expert at finding repositories on GitHub. You have been contacted by the person who made 
+             up the query, and your task is to use keywords from the user's query to write 5 short queries that the 
+             user can best search for. Use no more than 3 words in one search query. Be brief. The requests must be 
+             separated by commas. Answer only english language"""),
             ("user", "User request: {user_query}")
         ])
 
