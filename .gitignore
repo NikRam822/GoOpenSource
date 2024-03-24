@@ -273,4 +273,4 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,pycharm
 
-./go-open-source-front/node_modules
+./go-open-source-front/node_modules/*
