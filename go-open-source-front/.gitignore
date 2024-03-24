@@ -1,7 +1,8 @@
 .DS_Store
-node_modules
+*/node_modules
 /dist
-
+*/typed-router.d.ts
+*/components.d.ts
 # local env files
 .env.local
 .env.*.local
