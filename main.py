@@ -84,13 +84,12 @@ async def read_item(request: Request):
         # middleware for AI solutions
 
     seen = set()
-    verification_repo([repo for repo in all_repos if repo.link not in seen and not seen.add(repo.link)],
-                      query)
+    unique_repos = [repo for repo in all_repos if repo.link not in seen and not seen.add(repo.link)]
     # print(f"Repositories from {name}: {repos}")
 
-    all_repos.sort(key=lambda repo: repo.stars, reverse=True)
+    unique_repos.sort(key=lambda repo: repo.stars, reverse=True)
 
-    result = [x.link for x in all_repos]
+    result = [x.link for x in unique_repos]
 
     return {"repositories": [result]}
 

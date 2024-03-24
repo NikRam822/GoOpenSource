@@ -15,14 +15,14 @@ class GitAPI(ABC):
         return 3
 
     @staticmethod
-    def find_or_insert_readme(url: str, readme_func, args: typing.List) -> str:
+    def find_or_insert_readme(url: str, readme_func, args: typing.List) -> (str, bool):
         file_name = GitAPI.find_file_path(url)
         if file_name != "":
-            return file_name
+            return file_name, True
 
         readme = readme_func(*args)
         file_name = GitAPI.save_readme(url, readme)
-        return file_name
+        return file_name, False
 
     @staticmethod
     def find_file_path(url: str) -> str:
