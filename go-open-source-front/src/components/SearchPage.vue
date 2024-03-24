@@ -9,7 +9,7 @@
               color="grey-darken-3"></v-progress-circular>
           </v-col>
         </v-container>
-        <ReposCards :repositories=" repositories "></ReposCards>
+        <ReposCards v-show="show" :repositories=" repositories "></ReposCards>
       </v-col>
     </v-row>
   </v-container>
@@ -19,6 +19,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      show: false,
       switch: false,
       repositories: [],
     };
@@ -32,6 +33,7 @@ export default {
         }, {
           withCredentials: true,
         })
+        this.show = true
         this.switch = false
         this.repositories = response.data.repositories;
       } catch (error) {
