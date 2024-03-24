@@ -15,14 +15,19 @@ class GitAPI(ABC):
         return 3
 
     @staticmethod
-    def find_or_insert_readme(url: str, readme_func, args: typing.List) -> str:
+    def find_or_insert_readme(url: str, readme_func, args: typing.List) -> (str, bool):
         file_name = GitAPI.find_file_path(url)
         if file_name != "":
-            return file_name
+            print("file found")
+            return file_name, True
 
         readme = readme_func(*args)
+        if len(readme) == 0:
+            print("file not found, empty readme")
+            return "", False
         file_name = GitAPI.save_readme(url, readme)
-        return file_name
+        print("file not found, created with", len(readme))
+        return file_name, False
 
     @staticmethod
     def find_file_path(url: str) -> str:
@@ -38,6 +43,6 @@ class GitAPI(ABC):
         directory = f"./files/{url}"
         if not os.path.exists(directory):
             os.makedirs(directory)
-        with open(f"{directory}/README.md", "w") as file:
+        with open(f"{directory}/README.md", "w", encoding='utf-8') as file:
             file.write(readme)
         return f"{directory}/README.md"

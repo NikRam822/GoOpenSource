@@ -20,30 +20,34 @@ class GitVerseAPI(GitAPI):
                     "limit": GitAPI.get_number_of_repos(),
                     "q": query_for_project,
                 })
-            models = [
-                Model(
-                    link="https://gitverse.ru/" + repo["full_name"],
-                    clone_link=repo["clone_url"],
-                    name=repo["name"],
-                    readme=self.find_or_insert_readme(
-                        self.url_owner_repo_name(repo["owner"]["username"], repo["name"]),
-                        self.get_readme, [repo["owner"]["username"], repo["name"]],
-                    ),
-                    description=repo["description"],
-                    stars=repo["stars_count"],
-                    contributors=[],
-                    owner=Contributor(
-                        username=repo["owner"]["username"],
-                    ),
+            models = []
+            for repo in repositories.json()["data"][
+                        :min(GitAPI.get_number_of_repos(), len(repositories.json()["data"]))]:
+                readme, first_time_seen = self.find_or_insert_readme(
+                    self.url_owner_repo_name(repo["owner"]["username"], repo["name"]),
+                    self.get_readme, [repo["owner"]["username"], repo["name"]],
                 )
-                for repo in
-                repositories.json()["data"][:GitAPI.get_number_of_repos()]]
+
+                models.append(
+                    Model(
+                        link="https://gitverse.ru/" + repo["full_name"],
+                        clone_link=repo["clone_url"],
+                        name=repo["name"],
+                        readme=readme,
+                        first_time_seen=first_time_seen,
+                        description=repo["description"],
+                        stars=repo["stars_count"],
+                        contributors=[],
+                        owner=Contributor(
+                            username=repo["owner"]["username"],
+                        ),
+                    )
+                )
             return models
 
         except Exception as e:
             print(f"An error occurred: {e}")
             return []
-
 
     @staticmethod
     def url_owner_repo_name(owner: str, repo_name: str, ) -> str:

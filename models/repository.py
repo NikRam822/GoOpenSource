@@ -13,7 +13,10 @@ class Model:
     clone_link: str
     name: str
     readme: str  # possibly None
+    first_time_seen: bool
     description: str  # possibly None
     stars: int
     contributors: typing.List[Contributor]  # possibly None
     owner: Contributor
+    out_description: str = None
+    out_rating: float = None

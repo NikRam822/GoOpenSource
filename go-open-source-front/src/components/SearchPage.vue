@@ -4,13 +4,12 @@
       <v-col>
         <v-container>
           <SearchRepos @getRepositories="getRepositories"></SearchRepos>
-          <v-col align="center">
-            <v-progress-circular v-if="switch" indeterminate size="50" width="10"
-              color="grey-darken-3"></v-progress-circular>
-          </v-col>
+          <ReposCards :repositories="repositories"></ReposCards>
         </v-container>
-        <ReposCards v-show="show" :repositories=" repositories "></ReposCards>
       </v-col>
+      <!-- <v-col cols='3'>
+        <Filter></Filter>
+      </v-col> -->
     </v-row>
   </v-container>
 </template>
@@ -19,22 +18,17 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      show: false,
-      switch: false,
       repositories: [],
     };
   },
   methods: {
     async getRepositories(queryForProject) {
-      this.switch = true
       try {
         const response = await axios.post('http://127.0.0.1:8000/getRepositories', {
           queryForProject: queryForProject
         }, {
-          withCredentials: true,
-        })
-        this.show = true
-        this.switch = false
+        withCredentials: true,
+      })
         this.repositories = response.data.repositories;
       } catch (error) {
         console.error('Error fetching repositories:', error);

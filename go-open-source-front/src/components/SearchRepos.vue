@@ -1,16 +1,11 @@
 <template>
   <v-form class="h-300" ref="form">
     <v-row>
-      <v-textarea variant="outlined"
-      v-model="queryForProject"
-      :rules="rules"
-      label="Enter your querry"
-      auto-grow="true"
-      rows="1">
+      <v-text-field class="h-200" v-model="queryForProject" :rules="rules" label="Enter your querry">
         <template v-slot:append-inner>
-          <v-btn @click="sendQuerry"><v-icon icon="mdi-magnify" size="x-large"></v-icon></v-btn>
+          <v-btn @click="sendQuerry">Search</v-btn>
         </template>
-      </v-textarea>
+      </v-text-field>
     </v-row>
   </v-form>
 </template>
