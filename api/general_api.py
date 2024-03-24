@@ -26,19 +26,18 @@ class GitAPI(ABC):
 
     @staticmethod
     def find_file_path(url: str) -> str:
-        url = url.replace("/", "_")
-
+        url = url.replace("/", "_").replace(":", "_").replace("__", "_")
         file_name = f"./files/{url}/README.md"
         if os.path.exists(file_name):
             return file_name
-
         return ""
 
     @staticmethod
     def save_readme(url: str, readme: str) -> str:
-        url = url.replace("/", "_")
-        os.mkdir(f"./files/{url}")
-        with open(f"./files/{url}/README.md", "w") as file:
+        url = url.replace("/", "_").replace(":", "_").replace("__", "_")
+        directory = f"./files/{url}"
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        with open(f"{directory}/README.md", "w") as file:
             file.write(readme)
-
-        return f"./files/{url}/README.md"
+        return f"{directory}/README.md"
