@@ -6,7 +6,7 @@
 
         <div class="d-flex align-center">
           <v-btn class="me-8" variant="text" @click="onClickSeeAll">
-            <span class="text-decoration-underline text-none">See all</span>
+            <span class="text-decoration-underline text-none">{{ text1 }}</span>
           </v-btn>
 
           <div class="d-inline-flex">
@@ -59,12 +59,17 @@ export default {
   },
   data() {
     return {
+      text1: "See all",
+      switchwbool: false,
+      showHide: { true: [1000, 'Hide all'], false: [6, 'See all'] },
       itemsPerPage: 6,
     };
   },
   methods: {
     onClickSeeAll() {
-      this.itemsPerPage = 1000
+      this.switchwbool = !this.switchwbool
+      this.text1 = this.showHide[this.switchwbool][1]
+      this.itemsPerPage = this.showHide[this.switchwbool][0]
     }
   }
 }
