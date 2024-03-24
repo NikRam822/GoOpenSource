@@ -64,7 +64,8 @@
         </v-list-item>
         <v-list-item :title="selectedItem" density="comfortable" lines="two" subtitle="Description">
           <template v-slot:title>
-            <strong class="text-subtitle-1"> {{ selectedItem.raw.description }} </strong>
+            <strong class="text-subtitle-1"> {{ selectedItem.raw.out_description }} </strong>
+            <strong class="text-subtitle-1"> {{ selectedItem.raw.out_rating }} </strong>
           </template>
         </v-list-item>
         <v-btn color="surface-variant" class="close-button" @click="hideOverlay">Close</v-btn>
