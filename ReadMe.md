@@ -3,7 +3,20 @@
 ## What is GoOpenSource?
 Project is a solution to find the right projects for your goals. You can find the right project for your business/research. The platform aggregates projects from multiple sources and allows you to quickly and accurately find the right basis for the realization of your ideas.
 ## Development
+## Frontend
+For start frontend:
+```
+cd go-open-source-front
+```
 
+```
+npm install
+```
+
+```
+npm run dev
+```
+## Backend:
 1) **Use Python 3.9.10**: [source](https://www.python.org/downloads/release/python-3910/)
 ### Start server in production
 First you need to create an **.env** file in the root folder of the project and specify the parameter:
@@ -15,6 +28,8 @@ GITLAB_API_URL=https://gitlab.com
 GITLAB_ACCESS_TOKEN=your_access_token
 
 GITFLAME_API_URL=https://gitflame.ru/api/v1
+
+OPENAI_API_KEY=your_openai-key
 ```
 
 #### Without using a virtual environment: 
