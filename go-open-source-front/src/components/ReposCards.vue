@@ -64,8 +64,14 @@
         </v-list-item>
         <v-list-item :title="selectedItem" density="comfortable" lines="two" subtitle="Description">
           <template v-slot:title>
-            <strong class="text-subtitle-1"> {{ selectedItem.raw.out_description }} </strong>
-            <strong class="text-subtitle-1"> {{ selectedItem.raw.out_rating }} </strong>
+            <div class="description-text">
+              <p class="text-subtitle-1 description-text w-100"> {{ selectedItem.raw.out_description }} </p>
+            </div>
+          </template>
+        </v-list-item>
+        <v-list-item density="comfortable" lines="two" subtitle="Rating">
+          <template v-slot:title>
+            <p class="text-subtitle-1 rating-text"> {{ selectedItem.raw.out_rating }} </p>
           </template>
         </v-list-item>
         <v-btn color="surface-variant" class="close-button" @click="hideOverlay">Close</v-btn>
@@ -116,6 +122,18 @@ export default {
 </script>
 
 <style scoped>
+.description-text {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.rating-text {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
 .overlay-custom {
   z-index: 9999;
   /* Устанавливаем высокий z-index, чтобы overlay был поверх других элементов */
