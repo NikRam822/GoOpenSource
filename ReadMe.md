@@ -72,3 +72,11 @@ To update pip packages after installing them to the local development environmen
 pip freeze > requirements.txt
 ```
 Then don't forget to make a Merge Request with your changes :)
+
+## Developers
+
+- Kamyshnikov Dmitrii :
+      - [GitHub](https://github.com/kama34)
+      - [Email](mailto:d.kamyshnikov.offer@yandex.ru)
+      - [Telegram](https://t.me/kama_34)
+
