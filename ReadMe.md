@@ -79,4 +79,7 @@ Then don't forget to make a Merge Request with your changes :)
       - [GitHub](https://github.com/kama34)
       - [Email](mailto:d.kamyshnikov.offer@yandex.ru)
       - [Telegram](https://t.me/kama_34)
-
+- Akhmatov Timur :
+      - [GitHub](https://github.com/Timmmich19)
+      - [Email](mailto:t.akhmatovya@yandex.ru)
+      - [Telegram](https://t.me/Timmmich)
