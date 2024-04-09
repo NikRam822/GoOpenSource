@@ -89,3 +89,8 @@ Then don't forget to make a Merge Request with your changes :)
       - [GitHub](https://github.com/Ninelco)
       - [Email](mailto:ninel.gabdullina@yandex.ru)
       - [Telegram](https://t.me/Ninelcozaurus)
+
+- Ramzin Nikita :
+      - [GitHub](https://github.com/NikRam822)
+      - [Email](mailto:rivorn73@gmail.com)
+      - [Telegram](https://t.me/rivorn)
