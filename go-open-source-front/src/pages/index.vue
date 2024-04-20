@@ -1,5 +1,7 @@
 <template>
-  <LandingPage />
+  <!-- <LandingPage /> -->
+  <CarouselComponent />
+
 </template>
 
 <script lang="ts" setup>
