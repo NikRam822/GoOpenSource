@@ -1,5 +1,7 @@
 <template>
-  <SearchPage />
+  <!-- <SearchPage /> -->  
+  <BackGround />
+
 </template>
 
 <script lang="ts" setup>

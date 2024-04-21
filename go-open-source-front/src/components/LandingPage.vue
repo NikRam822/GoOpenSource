@@ -9,11 +9,11 @@
           <div class="hero-content">
             <h1 class="hero-text">Исследуй<span style="margin-top: 5px;">Понимай</span></h1>
             <div class="wrap" :style="{ 'margin': '5px' }">
-              <button class="button" @click="handleButtonClick">Submit</button>
+              <button class="button" @click="handleButtonClick">Погнали</button>
             </div>
           </div>
         </div>
-        <div class="layers__item layer-2" :style="{ 'background-image': 'url(' + layer2Url + ')' }"></div>
+        <!-- <div class="layers__item layer-2" :style="{ 'background-image': 'url(' + layer2Url + ')' }"></div> -->
       </div>
     </section>
   </div>
@@ -22,7 +22,7 @@
 <script>
 import router from "@/router";
 import logoImg from "@/assets/img/logo.svg";
-import layer1Img from "@/assets/img/blob1.gif";
+import layer1Img from "@/assets/img/space_back.jpg";
 import layer2Img from "@/assets/img/layer-2.png";
 
 export default {
@@ -41,7 +41,7 @@ export default {
       document.querySelector('.hero-text').classList.add('fade-out');
       document.querySelector('.layers__item.layer-3').classList.add('fade-out');
       document.querySelector('.layers__item.layer-1').classList.add('fade-out');
-      document.querySelector('.layers__item.layer-2').classList.add('fade-out');
+      // document.querySelector('.layers__item.layer-2').classList.add('fade-out');
 
       setTimeout(async () => {
         try {
@@ -138,7 +138,7 @@ export default {
 }
 
 .WelcomePageBody .layer-3 {
-  transform: translateZ(180px) scale(.8);
+  transform: translateZ(180px) translateY(-20px) scale(.8);
 }
 
 .WelcomePageBody .hero-content {
@@ -224,12 +224,12 @@ body {
   text-transform: uppercase;
   letter-spacing: 1.3px;
   font-weight: 700;
-  color: #313133;
+  color: white;
   background: #4FD1C5;
-  background: linear-gradient(90deg, rgba(129, 230, 217, 1) 0%, rgba(79, 209, 197, 1) 100%);
+  background: linear-gradient(90deg, rgb(227, 59, 112) 0%, rgb(114, 79, 209) 100%);
   border: none;
   border-radius: 1000px;
-  box-shadow: 12px 12px 24px rgba(79, 209, 197, .64);
+  box-shadow: 12px 12px 24px rgba(79, 94, 209, 0.64);
   transition: all 0.3s ease-in-out 0s;
   cursor: pointer;
   outline: none;
@@ -242,7 +242,7 @@ body {
   border-radius: 1000px;
   min-width: calc(300px + 12px);
   min-height: calc(60px + 12px);
-  border: 6px solid #00FFCB;
+  border: 6px solid #7340d9;
   box-shadow: 0 0 60px rgba(0, 255, 203, .64);
   position: absolute;
   top: 50%;
@@ -254,7 +254,7 @@ body {
 
 .WelcomePageBody .button:hover,
 .button:focus {
-  color: #313133;
+  color: white;
   transform: translateY(-6px);
 }
 
@@ -268,7 +268,7 @@ button:focus::before {
   width: 30px;
   height: 30px;
   border-radius: 100%;
-  border: 6px solid #00FFCB;
+  border: 6px solid #7340d9;
   position: absolute;
   z-index: -1;
   top: 50%;
