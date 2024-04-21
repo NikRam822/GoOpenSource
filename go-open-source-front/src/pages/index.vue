@@ -1,6 +1,6 @@
 <template>
-  <!-- <LandingPage /> -->
-  <ChatRepo />
+  <LandingPage />
+  <!-- <ChatRepo /> -->
   <!-- <BackGround /> -->
 
 </template>

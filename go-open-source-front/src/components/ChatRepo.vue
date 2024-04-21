@@ -1,151 +1,219 @@
 <template>
     <div class="page-container">
-      <!-- Левая колонка с буллет-поинтами -->
-      <div class="sidebar">
+    <!-- Левая колонка с буллет-поинтами -->
+    <div class="sidebar">
       <div class="content-wrapper">
-        <h1>Кофе Магазин</h1>
+        <h1 class="title-with-rating" v-if="item">
+          {{ item.raw.name }}
+          <span class="star-rating">{{ generateStarRating(item.raw.stars) }}</span>
+        </h1>
+
         <hr class="divider" /> <!-- Разделительная линия -->
         <div class="buttons-wrapper">
-          <button class="sidebar-button">master</button>
-          <button class="sidebar-button">ветки: 9</button>
+          <a v-if="item && item.raw.link" :href="item.raw.link" class="link-button" target="_blank">К репозиторию</a>
+          <button v-else class="sidebar-button disabled">Ссылка недоступна</button>
+          <button class="sidebar-button" v-if="item">Владелец: {{ item.raw.owner.username }}</button>
         </div>
         <div class="icon-wrapper">
-        <h3 style="margin-bottom: 5px;">Контрибьюторы</h3>
-          <div class="icon-item">
-            <div class="circle-icon" style="background-color: #0AD5C1;"></div>
-            <span>venikhl</span>
+          <h3 style="margin-bottom: 5px;">Контрибьюторы</h3>
+          <div v-if="item" v-for="contributor in item.raw.contributors" :key="contributor.name" class="icon-item">
+            <div :style="{ backgroundColor: generateRandomColor() }" class="circle-icon"></div>
+            <span>{{ contributor.name }}</span>
           </div>
-          <div class="icon-item">
-            <div class="circle-icon" style="background-color: #0EC879;"></div>
-            <span>Ninel</span>
-          </div>
-          <!-- Добавьте другие иконки здесь -->
         </div>
         <div class="description-container">
           <div class="top-section">
-            <!-- <img :src="bookUrl" alt="Book Icon" class="book-icon" /> -->
-
             <span>README</span>
           </div>
           <hr class="description-divider" /> 
-          <div class="bottom-section">
-            <!-- Здесь может быть другое содержимое -->
-
+          <div class="bottom-section" v-if="item">
+            {{ item.raw.description }}
           </div>
         </div>
-        <p>Количество звезд: 100</p>
-        <p>Последний коммит: 2024-04-20</p>
-       
       </div>
     </div>
-  
-      <!-- Правая колонка с чатом -->
-      <div class="wrapper">
-        
+
+    <!-- Правая колонка с чатом -->
+    <div class="wrapper">
       <header class="chat-header">ЧатБот</header>
-        <div class="chat-container">
-          <ul class="chat-thread">
-            <li v-for="(message, index) in messages" :key="index" :class="message.author === 'user' ? 'user-message' : 'bot-message'">
-              <div class="message-container">
-                <div class="avatar" :class="message.author === 'user' ? 'user-avatar' : 'bot-avatar'"></div>
-                <div class="message-content">{{ message.text }}</div>
-              </div>
-            </li>
-          </ul>
-  
-          <form class="chat-window" @submit.prevent="sendMessage">
-            <input ref="messageInput" class="chat-window-message" type="text" v-model="newMessage" autocomplete="off" autofocus />
-          </form>
-        </div>
+      <div class="chat-container">
+        <ul class="chat-thread">
+          <li v-for="(message, index) in messages" :key="index" :class="message.author === 'user' ? 'user-message' : 'bot-message'">
+            <div class="message-container">
+              <div :class="message.author === 'user' ? 'user-avatar avatar' : 'bot-avatar avatar'"></div>
+              <div class="message-content">{{ message.text }}</div>
+            </div>
+          </li>
+        </ul>
+
+        <form class="chat-window" @submit.prevent="sendMessage">
+          <input ref="messageInput" class="chat-window-message" type="text" v-model="newMessage" autocomplete="off" autofocus />
+        </form>
       </div>
     </div>
-  </template>
-  
+  </div>
+</template>
+
   
   <script>
-  import router from "@/router";
-  import bookImg from "@/assets/img/book.png";
-  export default {
-    data() {
-      return {
-        
-        bookUrl: bookImg,
-        messages: [
-          { text: 'Привет! Что ты хочешь узнать?', author: 'bot' },
-          { text: 'Я здесь, чтобы помочь. Задавайте вопросы!', author: 'bot' }
-        ],
-        newMessage: '',
-        sendChannel: null,
-        receiveChannel: null
-      };
+import { defineComponent, ref, onMounted } from 'vue';
+import bookImg from '@/assets/img/book.png';
+
+export default defineComponent({
+  data() {
+    return {
+      item: null,
+      contributors: [
+        { name: 'venikhl', color: '#0AD5C1' },
+        { name: 'Ninel', color: '#0EC879' }
+      ],
+      messages: [
+        { text: 'Привет! Что ты хочешь узнать?', author: 'bot' },
+        { text: 'Я здесь, чтобы помочь. Задавайте вопросы!', author: 'bot' }
+      ],
+      newMessage: '',
+      sendChannel: null,
+      receiveChannel: null
+    };
+  },
+  mounted() {
+    // Retrieve item data from the route query parameters
+    const routeParams = this.$route.query;
+    if (routeParams && routeParams.item) {
+      this.item = JSON.parse(routeParams.item);
+    }
+    console.log(this.item);
+    // Initialize WebRTC peer connection
+    this.createConnection();
+  },
+  methods: { 
+    generateStarRating(starsCount) {
+      const fullStar = '✦';
+      const emptyStar = '✧';
+      let stars = '';
+
+      // Генерируем звезды в зависимости от значения starsCount
+      for (let i = 0; i < starsCount; i++) {
+        stars += fullStar;
+      }
+
+      // Дополняем строку пустыми звездами до 5
+      for (let i = starsCount; i < 10; i++) {
+        stars += emptyStar;
+      }
+
+      return stars;
     },
-    mounted() {
-      this.createConnection();
+    generateRandomColor() {
+      const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+      return randomColor;
     },
-    methods: {
-      async createConnection() {
-        const servers = null;
-        this.localPeerConnection = new RTCPeerConnection(servers);
-        this.localPeerConnection.onicecandidate = this.gotLocalCandidate;
-  
-        this.sendChannel = this.localPeerConnection.createDataChannel('sendDataChannel', { reliable: false });
-        this.sendChannel.onopen = this.handleSendChannelStateChange;
-        this.sendChannel.onclose = this.handleSendChannelStateChange;
-  
-        const desc = await this.localPeerConnection.createOffer();
-        await this.gotLocalDescription(desc);
-      },
-      async gotLocalDescription(desc) {
-        await this.localPeerConnection.setLocalDescription(desc);
-        this.remotePeerConnection = new RTCPeerConnection(null);
-        this.remotePeerConnection.onicecandidate = this.gotRemoteIceCandidate;
-        this.remotePeerConnection.ondatachannel = this.gotReceiveChannel;
-  
-        await this.remotePeerConnection.setRemoteDescription(desc);
-        const answerDesc = await this.remotePeerConnection.createAnswer();
-        await this.gotRemoteDescription(answerDesc);
-      },
-      async gotRemoteDescription(desc) {
-        await this.remotePeerConnection.setLocalDescription(desc);
-        await this.localPeerConnection.setRemoteDescription(desc);
-      },
-      gotLocalCandidate(event) {
-        if (event.candidate) {
-          this.remotePeerConnection.addIceCandidate(event.candidate);
-        }
-      },
-      gotRemoteIceCandidate(event) {
-        if (event.candidate) {
-          this.localPeerConnection.addIceCandidate(event.candidate);
-        }
-      },
-      gotReceiveChannel(event) {
-        this.receiveChannel = event.channel;
-        this.receiveChannel.onmessage = this.handleMessage;
-      },
-      async handleMessage(event) {
-        this.messages.push({ text: event.data, author: 'bot' });
-      },
-      async handleSendChannelStateChange() {
-        if (this.$refs.messageInput && this.sendChannel.readyState === 'open') {
-          this.$refs.messageInput.disabled = false;
-          this.$refs.messageInput.focus();
-        } else if (this.$refs.messageInput) {
-          this.$refs.messageInput.disabled = true;
-        }
-      },
-      async sendMessage() {
-        if (this.sendChannel.readyState === 'open' && this.newMessage.trim() !== '') {
-          this.sendChannel.send(this.newMessage.trim());
-          this.messages.push({ text: this.newMessage.trim(), author: 'user' });
-          this.newMessage = '';
-        }
+    async createConnection() {
+      const servers = null;
+      this.localPeerConnection = new RTCPeerConnection(servers);
+      this.localPeerConnection.onicecandidate = this.gotLocalCandidate;
+
+      this.sendChannel = this.localPeerConnection.createDataChannel('sendDataChannel', { reliable: false });
+      this.sendChannel.onopen = this.handleSendChannelStateChange;
+      this.sendChannel.onclose = this.handleSendChannelStateChange;
+
+      const desc = await this.localPeerConnection.createOffer();
+      await this.gotLocalDescription(desc);
+    },
+    async gotLocalDescription(desc) {
+      await this.localPeerConnection.setLocalDescription(desc);
+      this.remotePeerConnection = new RTCPeerConnection(null);
+      this.remotePeerConnection.onicecandidate = this.gotRemoteIceCandidate;
+      this.remotePeerConnection.ondatachannel = this.gotReceiveChannel;
+
+      await this.remotePeerConnection.setRemoteDescription(desc);
+      const answerDesc = await this.remotePeerConnection.createAnswer();
+      await this.gotRemoteDescription(answerDesc);
+    },
+    async gotRemoteDescription(desc) {
+      await this.remotePeerConnection.setLocalDescription(desc);
+      await this.localPeerConnection.setRemoteDescription(desc);
+    },
+    gotLocalCandidate(event) {
+      if (event.candidate) {
+        this.remotePeerConnection.addIceCandidate(event.candidate);
+      }
+    },
+    gotRemoteIceCandidate(event) {
+      if (event.candidate) {
+        this.localPeerConnection.addIceCandidate(event.candidate);
+      }
+    },
+    gotReceiveChannel(event) {
+      this.receiveChannel = event.channel;
+      this.receiveChannel.onmessage = this.handleMessage;
+    },
+    async handleMessage(event) {
+      this.messages.push({ text: event.data, author: 'bot' });
+    },
+    async handleSendChannelStateChange() {
+      if (this.$refs.messageInput && this.sendChannel.readyState === 'open') {
+        this.$refs.messageInput.disabled = false;
+        this.$refs.messageInput.focus();
+      } else if (this.$refs.messageInput) {
+        this.$refs.messageInput.disabled = true;
+      }
+    },
+    async sendMessage() {
+      if (this.sendChannel.readyState === 'open' && this.newMessage.trim() !== '') {
+        this.sendChannel.send(this.newMessage.trim());
+        this.messages.push({ text: this.newMessage.trim(), author: 'user' });
+        this.newMessage = '';
       }
     }
-  };
-  </script>
-  
+  }
+});
+</script>
   <style scoped>
+/* Стили для кнопки-ссылки */
+.link-button {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #0ac114; /* Цвет фона кнопки, похожий на GitHub */
+  color: white; /* Цвет текста */
+  border: none;
+  border-radius: 4px;
+  text-decoration: none; /* Убираем стандартное подчеркивание ссылки */
+  cursor: pointer;
+  width: 50%; /* Ширина кнопки на 100% */
+  text-align: center; /* Выравнивание текста по центру */
+  box-sizing: border-box; /* Учитываем padding внутри ширины */
+  margin-right: 5px;
+}
+
+.link-button:hover {
+  background-color: #c7ccb6; /* Цвет фона при наведении */
+  color: #161b22; /* Цвет текста при наведении */
+}
+
+/* Стили для отключенной кнопки */
+.disabled {
+  opacity: 0.5; /* Устанавливаем полупрозрачность */
+  cursor: not-allowed; /* Запрещаем курсору менять вид */
+}
+
+/* Стили для отключенной кнопки */
+.disabled {
+  opacity: 0.5; /* Устанавливаем полупрозрачность */
+  cursor: not-allowed; /* Запрещаем курсору менять вид */
+}
+
+.title-with-rating {
+  display: flex;
+  align-items: center;
+}
+
+.star-rating {
+  font-size: 24px;
+  color: gold;
+  margin-left: 10px; /* Отступ слева от рейтинга */
+}
+
   .page-container {
   display: flex;
   flex-direction: column; /* Ensure children stack vertically */
@@ -190,6 +258,7 @@
 .bottom-section {
   height: 80%; /* Высота нижней части (80% от общей высоты блока) */
   /* Дополнительные стили по вашему усмотрению */
+  padding: 5px;
 }
   /* Стили для под-дива с иконками */
 .icon-wrapper {
@@ -263,7 +332,7 @@
   border-radius: 4px;
   border-color: #727981;
   cursor: pointer;
-  font-size: 14px;
+  /* font-size: 14px; */
 }
 
 .sidebar-button:hover {
