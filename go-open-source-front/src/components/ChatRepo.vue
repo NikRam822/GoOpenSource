@@ -5,7 +5,7 @@
       <div class="content-wrapper">
         <h1 class="title-with-rating" v-if="item">
           {{ item.raw.name }}
-          <span class="star-rating">{{ generateStarRating(item.raw.stars) }}</span>
+          <span class="star-rating">✦{{ item.raw.stars }}</span>
         </h1>
 
         <hr class="divider" /> <!-- Разделительная линия -->
@@ -87,23 +87,6 @@ export default defineComponent({
     this.createConnection();
   },
   methods: { 
-    generateStarRating(starsCount) {
-      const fullStar = '✦';
-      const emptyStar = '✧';
-      let stars = '';
-
-      // Генерируем звезды в зависимости от значения starsCount
-      for (let i = 0; i < starsCount; i++) {
-        stars += fullStar;
-      }
-
-      // Дополняем строку пустыми звездами до 5
-      for (let i = starsCount; i < 10; i++) {
-        stars += emptyStar;
-      }
-
-      return stars;
-    },
     generateRandomColor() {
       const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
       return randomColor;

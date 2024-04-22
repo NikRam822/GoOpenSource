@@ -65,7 +65,7 @@
         <v-list-item :title="selectedItem" density="comfortable" lines="two" subtitle="Description">
           <template v-slot:title>
             <div class="description-text">
-              <p class="text-subtitle-1 description-text w-100"> {{ selectedItem.raw.out_description }} </p>
+              <p class="text-subtitle-1 description-text w-100"> {{ selectedItem.raw.description }} </p>
             </div>
           </template>
         </v-list-item>
