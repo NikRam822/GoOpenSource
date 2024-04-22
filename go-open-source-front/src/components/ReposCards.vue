@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-top: 5;">
     <v-data-iterator :items="repositories[0]" :items-per-page="itemsPerPage">
       <template v-slot:header="{ page, pageCount, prevPage, nextPage }">
         <h1 class="text-h4 font-weight-bold d-flex justify-space-between mb-4 align-center">
@@ -65,7 +65,7 @@
         <v-list-item :title="selectedItem" density="comfortable" lines="two" subtitle="Description">
           <template v-slot:title>
             <div class="description-text">
-              <p class="text-subtitle-1 description-text w-100"> {{ selectedItem.raw.out_description }} </p>
+              <p class="text-subtitle-1 description-text w-100"> {{ selectedItem.raw.description }} </p>
             </div>
           </template>
         </v-list-item>
@@ -74,13 +74,15 @@
             <p class="text-subtitle-1 rating-text"> {{ selectedItem.raw.out_rating }} </p>
           </template>
         </v-list-item>
-        <v-btn color="surface-variant" class="close-button" @click="hideOverlay">Close</v-btn>
+        <v-btn color="surface-variant" class="close-button" @click="hideOverlay">Закрыть</v-btn>
+        <v-btn color="surface-variant" class="open-button" @click="openDetails">Детали</v-btn>
       </v-card>
     </v-overlay>
   </div>
 </template>
 
 <script>
+import router from "@/router";
 export default {
   props: {
     repositories: {
@@ -111,6 +113,17 @@ export default {
     hideOverlay() {
       this.overlay = false;
     },
+    openDetails() {
+    try {
+      // Navigate to '/chat' route with selected item as query parameter
+      router.push({
+        path: '/chat',
+        query: { item: JSON.stringify(this.selectedItem) }
+      });
+    } catch (error) {
+      console.error('Error navigating to chat page:', error);
+    }
+  },
     nextPage() {
       // Ваша логика для перехода на следующую страницу
     },
